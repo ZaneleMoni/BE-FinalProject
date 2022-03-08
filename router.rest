@@ -1,0 +1,11 @@
+GET http://localhost:6000
+
+###
+GET http://localhost:6000/id
+
+###
+POST http://localhost:6000
+
+###
+DELETE  http://localhost:6000/id
+
