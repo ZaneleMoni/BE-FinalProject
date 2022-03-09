@@ -1,11 +1,18 @@
-GET http://localhost:6000
+GET http://localhost:9339/blogs
 
 ###
-GET http://localhost:6000/id
+GET http://localhost:9339/blogs
 
 ###
-POST http://localhost:6000
+POST http://localhost:9339/blogs
+Content-type: application/json
+
+{
+    "title":"Healthy habits for success",
+     "content":" 1. Organization One of the most frequently mentioned habits of those who are successful in life is organization. Such organization includes planning as well as setting priorities and goals.",
+     "img":"https://i.postimg.cc/wBvpJctP/healthyhabits.jpg"
+}
 
 ###
-DELETE  http://localhost:6000/id
+DELETE  http://localhost:6000/blogs
 

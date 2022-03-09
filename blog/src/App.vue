@@ -17,6 +17,7 @@ import About from './components/About.vue'
 import Blogs from './components/Blogs.vue'
 import Episodes from './components/Episodes.vue'
 import Contact from './components/Contact.vue'
+import Comment from './views/partial/comment.handlebars'
 
 
 
@@ -30,7 +31,8 @@ export default {
   About,
   Blogs,
   Episodes,
-   Contact
+   Contact,
+   Comment
   }
 }
 </script>

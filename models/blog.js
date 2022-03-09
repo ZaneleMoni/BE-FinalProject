@@ -1,17 +1,16 @@
 const mongoose = require('mongoose')
 const blogSchema = new mongoose.Schema({
-  
-  sub_heading: {
+  title: {
     type: String,
-    required: [true, "Please include the product name"],
+    required: true,
   },
-  text: {
+  content: {
     type: String,
-    required: true
+    required: true,
   },
   img: {
     type: String,
-    required:true
+    required:true,
   },
   createDate:{
     type: Date,

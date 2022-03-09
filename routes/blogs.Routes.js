@@ -1,75 +1,77 @@
 const express = require("express");
 const router = express.Router();
-const Blog = require("../models/blog");
+const blogModels = require("../models/blog");
 
-// Getting all
+// Get all blog posts
 router.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find();
+    const blogs = await blogModels.find();
     res.json(blogs);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-// Getting One
-router.get("/:id", getBlog, (req, res) => {
-  res.send(res.blog);
+// Get single Blog
+router.get("/:id", getBlogs, (req, res) => {
+  res.send(req.blogs);
 });
-// Creating one
-router.post("/", async (req, res) => {
-  const blog = await Blog({
-    sub_heading: req.body.sub_heading,
-    text: req.body.text,
-    img: req.body.img,
-    created_by: req.userId,
-  });
 
+// Create Blog
+router.post("/", async (req, res) => {
+  const blogs = new blogModels({
+    title: req.body.title,
+    content: req.body.content,
+    img: req.body.img,
+  });
   try {
-    const newBlog = await blog.save();
+    const newBlog = await blogs.save();
     res.status(201).json(newBlog);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
-// Updating One
-router.patch("/:id",getBlog, async (req, res) => {
-  if (req.body.sub_heading != null) {
-    res.blog.name = req.body.sub_heading;
+
+// Update blog
+router.patch("/:id", getBlogs, async (req, res) => {
+  if (req.body.title != null) {
+    res.blogs.title = req.body.title;
   }
-  if (req.body.text != null) {
-    res.blog.text = req.body.text;
+  if (req.body.content != null) {
+    res.blogs.content = req.body.content;
   }
   if (req.body.img != null) {
-    res.blog.img = req.body.img;
+    res.blogs.img = req.body.img;
   }
   try {
-    const updatedBlog = await res.blog.save();
+    const updatedBlog = await res.blogs.save();
     res.json(updatedBlog);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
-// Deleting One
-router.delete("/:id",getBlog, async (req, res) => {
+
+// Delete Blog
+router.delete("/:id", getBlogs, async (req, res) => {
   try {
-    await res.blog.remove();
-    res.json({ message: "blog removed" });
+    await res.blogs.remove();
+    res.json({ message: "Blog Deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-async function getBlog(req, res, next) {
+async function getBlogs(req, res, next) {
   let blogs;
   try {
     blogs = await blogModels.findById(req.params.id);
     if (blogs == null) {
-      return res.status(404).json({ message: "cannot find blog" });
+      return res.status(404).json({ message: "Cannot find blog" });
     }
-  } catch (error) {
-    return res.status(500).json({ mssage: error.message });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
+
   res.blogs = blogs;
   next();
 }
