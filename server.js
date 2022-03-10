@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 const db = mongoose.connection;
-
+app.get("/", (req, res) => { res.send("welcome to Zanele's application") })
+  
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
