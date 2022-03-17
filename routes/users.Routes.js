@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
+//Get all users
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
@@ -13,14 +14,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:user_id", (req, res) => {
+//Get one user
+router.get("/:id", (req, res) => {
   res.json(res.user);
 });
 
 //POST
 router.post("/", async (req, res) => {
   const user = new User({
-    user_fullname: req.body.user_fullname,
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
     phone_number: req.body.phone_number,
@@ -38,7 +40,7 @@ router.post("/signup", async (req, res) => {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = new User({
-      fullname: req.body.fullname,
+      name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
       phone_number: req.body.phone_number,
@@ -55,7 +57,7 @@ router.post("/signup", async (req, res) => {
 //
 router.patch("/signin", async (req, res) => {
   try {
-    User.findOne({ fullname: req.body.fullname }, (err, customer) => {
+    User.findOne({ name: req.body.name }, (err, customer) => {
       if (error) return handleError(error);
       if (!customer) {
         return res.status(404).send({ message: "User not found" });
@@ -75,8 +77,8 @@ router.patch("/signin", async (req, res) => {
 
 //updated user
 router.patch("/", async (req, res) => {
-  if (req.body.fullname != null) {
-    res.user.fullname = req.body.fullname;
+  if (req.body.name != null) {
+    res.user.name = req.body.name;
   }
   if (req.body.email != null) {
     req.body.email = req.body.email;
@@ -105,6 +107,7 @@ router.delete("/:id", getUser, async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
 //PATCH
 async function getUser(req, res, next) {
   let user;

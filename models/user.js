@@ -12,7 +12,7 @@ password:{
     type: String,
         required:true
 },
-contact_number:{
+phone_number:{
     type: String,
         required:true
 },
