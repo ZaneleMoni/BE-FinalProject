@@ -1,18 +1,22 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
-const app = express.Router();
 require("dotenv").config();
+const router = express.Router();
 
-app.post("/", (req, res) => {
-  let { name, email, message } = req.body;
+router.get('/', (req, res) => {
+  res.send({ msg: "getting contacts" })
+});
 
-  const transporter = nodemailer.createTransport({
+router.post("/", (req, res) => {
+ const { name, email, message, subject } = req.body;
+
+  let transporter = nodemailer.createTransport({
     service: "gmail",
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
     auth: {
-      email: process.env.EMAIL,
+      user: process.env.EMAIL,
       pass: process.env.PASS,
     },
   });
@@ -20,7 +24,7 @@ app.post("/", (req, res) => {
   const mailOptions = {
     from: email,
     to: "zanelemoni4@gmail.com",
-    subject: "Sending Email using Node.js",
+    subject: `${subject}`,
     text: `${name} has contacted you please contact them back on ${email} ${message}`,
   };
 
@@ -35,4 +39,4 @@ app.post("/", (req, res) => {
   });
 });
 
-module.exports = app;
+module.exports = router;

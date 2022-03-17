@@ -57,9 +57,9 @@ router.post("/signup", async (req, res) => {
 //
 router.patch("/signin", async (req, res) => {
   try {
-    User.findOne({ name: req.body.name }, (err, customer) => {
+    User.findOne({ name: req.body.name }, (err, user) => {
       if (error) return handleError(error);
-      if (!customer) {
+      if (!user) {
         return res.status(404).send({ message: "User not found" });
       }
       let passwordIsValid = bcrypt.compareSync(
