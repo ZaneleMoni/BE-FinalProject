@@ -4,7 +4,7 @@ getBlog = async (req, res, next) => {
   let blog;
   try {
     blog = await Blog.findById(req.params.id);
-    if (product == null) {
+    if (blog == null) {
       return res.status(404).json({ message: "cannot find blog" });
     }
   } catch (err) {

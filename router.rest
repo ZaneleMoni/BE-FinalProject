@@ -8,11 +8,11 @@ POST http://localhost:9339/blogs
 Content-type: application/json
 
 {
-    "title":"Being yourself in a relationship",
-    "content":"Self-care is about looking after yourself and your mental health. The relationship you have with yourself is crucial to your own wellbeing and also to creating healthy and happy relationships with others. Being kind to yourself regularly is one of the best things you can do for yourself.",
-    "img":"https://i.postimg.cc/7PMRYvRY/IMG-20220307-WA0046.jpg"
+    "title":"Paris",
+    "content":"",
+    "img":""
 }
 
 ###
-DELETE  http://localhost:9339/blogs/6229c7adff5bfb1ffe7c5688
+DELETE  http://localhost:9339/blogs/623038db506adbf2f29945db
 
