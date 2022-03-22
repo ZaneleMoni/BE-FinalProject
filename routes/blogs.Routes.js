@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const Comment = require("../models/comment");
+const auth = require("../middleware/authJwt");
 const blogModels = require("../models/blog");
 
 // Get all blog posts
@@ -75,4 +77,52 @@ async function getBlogs(req, res, next) {
   res.blogs = blogs;
   next();
 }
+
+// Get all blog posts
+router.get("/:id/comments", async (req, res) => {
+  try {
+    const comments = await Comment.find();
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Create a blog comment
+// router.post("/:id/comments",auth, async (req, res, next) => {
+//   const { title, body } = req.body;
+//   try {
+//     const created_by = req.user_id.toString().replace(/['"]+/g, "");
+   
+//     const comment = new Comment({
+//       title,
+//       body,
+//       created_by,
+//       created_for: req.params.id,
+
+//     });
+ // Delete comment
+    router.delete("/:id/comments", Comment, async (req, res) => {
+      try {
+        await res.comments.remove();
+        res.json({ message: "Comment Deleted" });
+      } catch (err) {
+        res.status(500).json({ message: err.message });
+      }
+    });
+ 
+  // Update comment
+    router.patch("/:id/comments", Comment, async (req, res) => {
+      if (req.body.title != null) {
+        res.comments.title = req.body.title;
+      }
+      try {
+        const updatedComment = await res.comments.save();
+        res.json(updatedComment);
+      } catch (err) {
+        res.status(400).json({ message: err.message });
+      }
+    });
+
+
 module.exports = router;

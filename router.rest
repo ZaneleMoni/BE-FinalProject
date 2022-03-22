@@ -9,10 +9,16 @@ Content-type: application/json
 
 {
     "title":"Paris",
-    "content":"",
-    "img":""
+    "content":"Paris is one of the most beautiful cities in the world. It is known worldwide for the Louvre Museum, Notre-Dame cathedral, and the Eiffel tower. It has a reputation of being a romantic and cultural city. The city is also known for its high-quality gastronomy and the terraces of its cafés",
+    "img":"https://www.istorytime.com/wp-content/uploads/2017/12/eiffel-tower-1280022_1280.jpg"
 }
 
 ###
-DELETE  http://localhost:9339/blogs/6230376f506adbf2f29945d0
+DELETE  http://localhost:9339/blogs/6235b79e8908f4b5fabf8edc
 
+###
+PATCH http://localhost:9339/blogs/6235b79e8908f4b5fabf8edc
+
+{
+    "img":"https://www.istorytime.com/wp-content/uploads/2017/12/eiffel-tower-1280022_1280.jpg"
+}
