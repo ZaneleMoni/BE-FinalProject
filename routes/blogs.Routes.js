@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const Comment = require("../models/comment");
 const auth = require("../middleware/authJwt");
 const blogModels = require("../models/blog");
 
@@ -102,7 +101,7 @@ router.get("/:id/comments", async (req, res) => {
 
 //     });
  // Delete comment
-    router.delete("/:id/comments", Comment, async (req, res) => {
+    router.delete("/:id/comments", async (req, res) => {
       try {
         await res.comments.remove();
         res.json({ message: "Comment Deleted" });
@@ -112,7 +111,7 @@ router.get("/:id/comments", async (req, res) => {
     });
  
   // Update comment
-    router.patch("/:id/comments", Comment, async (req, res) => {
+    router.patch("/:id/comments", async (req, res) => {
       if (req.body.title != null) {
         res.comments.title = req.body.title;
       }
