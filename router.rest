@@ -1,4 +1,4 @@
-GET http://localhost:9339/blogs
+GET http://localhost:9339/blogs/6229c6d8ff5bfb1ffe7c5686
 
 ###
 GET http://localhost:9339/blogs
