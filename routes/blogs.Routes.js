@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 
 // Get single Blog
 router.get("/:id", getBlogs, (req, res) => {
-  res.send(req.blogs);
+  res.send(res.blogs);
 });
 
 // Create Blog
@@ -92,7 +92,7 @@ router.get("/:id/comments", async (req, res) => {
 //   const { title, body } = req.body;
 //   try {
 //     const created_by = req.user_id.toString().replace(/['"]+/g, "");
-   
+
 //     const comment = new Comment({
 //       title,
 //       body,
@@ -100,28 +100,27 @@ router.get("/:id/comments", async (req, res) => {
 //       created_for: req.params.id,
 
 //     });
- // Delete comment
-    router.delete("/:id/comments", async (req, res) => {
-      try {
-        await res.comments.remove();
-        res.json({ message: "Comment Deleted" });
-      } catch (err) {
-        res.status(500).json({ message: err.message });
-      }
-    });
- 
-  // Update comment
-    router.patch("/:id/comments", async (req, res) => {
-      if (req.body.title != null) {
-        res.comments.title = req.body.title;
-      }
-      try {
-        const updatedComment = await res.comments.save();
-        res.json(updatedComment);
-      } catch (err) {
-        res.status(400).json({ message: err.message });
-      }
-    });
+// Delete comment
+router.delete("/:id/comments", async (req, res) => {
+  try {
+    await res.comments.remove();
+    res.json({ message: "Comment Deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
+// Update comment
+router.patch("/:id/comments", async (req, res) => {
+  if (req.body.title != null) {
+    res.comments.title = req.body.title;
+  }
+  try {
+    const updatedComment = await res.comments.save();
+    res.json(updatedComment);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
 
 module.exports = router;

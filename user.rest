@@ -1,4 +1,4 @@
-GET http://localhost:9339/users
+GET http://localhost:9339/users/621f27c1b5fd27ccd4c791ca
 
 ###
 GET http://localhost:9339/users
