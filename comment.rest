@@ -1,0 +1,17 @@
+GET http://localhost:9339/comments
+
+###
+GET http://localhost:9339/blogs/comments
+
+###
+POST http://localhost:9339/blogs/comments
+Content-type: application/json
+
+{
+    "title":"",
+    "body":""   
+}
+
+###
+DELETE  http://localhost:9339/blogs/comments
+

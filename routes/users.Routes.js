@@ -55,7 +55,7 @@ router.post("/signup", async (req, res) => {
 });
 
 //
-router.patch("/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
   try {
     User.findOne({ name: req.body.name }, (err, user) => {
       if (error) return handleError(error);
