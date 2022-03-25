@@ -1,18 +1,18 @@
-GET http://localhost:9339/users/621f27c1b5fd27ccd4c791ca
+GET https://my-blogyy.herokuapp.com/users/621f27c1b5fd27ccd4c791ca
 
 ###
-GET http://localhost:9339/users
+GET https://my-blogyy.herokuapp.com/users
 
 ###
-POST http://localhost:9339/users
+POST https://my-blogyy.herokuapp.com/users/signin
 Content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmFmMTU5M2NkMmRlYTMwMmU1OTFiYiIsImlhdCI6MTY0NzY4MDM3NSwiZXhwIjoxNjQ3NzY2Nzc1fQ.x48l-te8fyJIg8G__DI-iq8Z8vmvd5quSMduomroJdc
 
 {
-    "name":"",
-    "email":"",
-    "password":"",
-    "phone_number":""
-    
+
+"name":"Sisipho",
+"password":"1234567"
+
 }
 
 ###

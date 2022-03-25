@@ -1,5 +1,4 @@
 const express = require("express");
-const res = require("express/lib/response");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
@@ -20,20 +19,20 @@ router.get("/:id", getUser, (req, res) => {
 });
 
 //POST
-router.post("/", async (req, res) => {  
-  const user = new User({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    phone_number: req.body.phone_number,
-  });
-  try {
-    const newUser = await user.save();
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+// router.post("/", async (req, res) => {  
+//   const user = new User({
+//     name: req.body.name,
+//     email: req.body.email,
+//     password: req.body.password,
+//     phone_number: req.body.phone_number,
+//   });
+//   try {
+//     const newUser = await user.save();
+//     res.status(201).json(newUser);
+//   } catch (error) {
+//     res.status(400).json({ message: error.message });
+//   }
+// });
 
 router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
   try {
@@ -57,23 +56,25 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
 //
 router.post("/signin", async (req, res) => {
   try {
-    User.findOne({ name: req.body.name }, (err, user) => {
+    User.findOne({ name: req.body.name }, (error, user) => {
       if (error) return handleError(error);
       if (!user) {
-        return res.status(404).send({ message: "User not found" });
+        return res.status(404).send({ message: "User Not found." });
       }
       let passwordIsValid = bcrypt.compareSync(
         req.body.password,
-        User.password
+        user.password
       );
       if (!passwordIsValid) {
-        return res.status(401).send({ accessToken:null, message: "invalid password" });
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!",
+        });
       }
-      let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresin: 86400, //24 hours
+      let token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: 86400, // 24 hours
       });
       res.status(200).send({
-        id: user._id,
         name: user.name,
         email: user.email,
         password: user.password,
@@ -141,8 +142,8 @@ async function DuplicatedNameorEmail(req, res, next) {
     if (user || email) {
       return res.status(404).send({ message: "username already exists" });
     }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
   next();
 }
