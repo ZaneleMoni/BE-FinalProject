@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
   try {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -67,8 +67,19 @@ router.post("/signin", async (req, res) => {
         User.password
       );
       if (!passwordIsValid) {
-        return res.status(401).send({ message: "invalid password" });
+        return res.status(401).send({ accessToken:null, message: "invalid password" });
       }
+      let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+        expiresin: 86400, //24 hours
+      });
+      res.status(200).send({
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        phone_number: user.phone_number,
+        accessToken: token,
+      });
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -122,4 +133,17 @@ async function getUser(req, res, next) {
   next();
 }
 
+async function DuplicatedNameorEmail(req, res, next) {
+  let user;
+  try {
+    user = await User.findOne({ name: req.body.name });
+    email = await User.findOne({ email: req.body.email });
+    if (user || email) {
+      return res.status(404).send({ message: "username already exists" });
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+  next();
+}
 module.exports = router;
