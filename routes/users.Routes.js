@@ -55,11 +55,11 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
   }
 });
 
-//
+// Sign in user
 router.post("/signin", async (req, res) => {
   try {
-      User.findOne({ name: req.body.name }, (error, user) => {
-      if (error) return handleError(error);
+    User.findOne({ name: req.body.name }, (err, user) => {
+      if (err) return handleError(err);
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
@@ -73,10 +73,11 @@ router.post("/signin", async (req, res) => {
           message: "Invalid Password!",
         });
       }
-      let token = jwt.signin({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+      let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: 86400, // 24 hours
       });
       res.status(200).send({
+        id: user._id,
         name: user.name,
         email: user.email,
         password: user.password,
@@ -84,8 +85,8 @@ router.post("/signin", async (req, res) => {
         accessToken: token,
       });
     });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 
