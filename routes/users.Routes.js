@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const verifyToken = require("../middleware/verifySignUp")
 
 //Get all users
 router.get("/", async (req, res) => {
@@ -71,7 +72,7 @@ router.post("/signin", async (req, res) => {
           message: "Invalid Password!",
         });
       }
-      let token = jwt.sign({ id: user.id }, process.env.ACCESS_TOKEN_SECRET, {
+      let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: 86400, // 24 hours
       });
       res.status(200).send({
@@ -88,7 +89,10 @@ router.post("/signin", async (req, res) => {
 });
 
 //updated user
-router.patch("/", async (req, res) => {
+router.patch("/", [getUser, verifyToken],async (req, res) => {
+  if (req.params.id != req.userId) {
+    return res.status(401).send({ message: "Unauthorized!" });
+  }
   if (req.body.name != null) {
     res.user.name = req.body.name;
   }
@@ -100,6 +104,9 @@ router.patch("/", async (req, res) => {
   }
   if (req.body.phone_number != null) {
     req.user.phone_number = req.body.phone_number;
+  }
+  if (req.body.join_date != null) {
+    res.user.join_date = req.body.join_date;
   }
 
   try {
