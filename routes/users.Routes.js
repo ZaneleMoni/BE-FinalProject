@@ -72,7 +72,7 @@ router.post("/signin", async (req, res) => {
           message: "Invalid Password!",
         });
       }
-      let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+      let token = jwt.signin({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: 86400, // 24 hours
       });
       res.status(200).send({
