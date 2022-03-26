@@ -20,27 +20,12 @@ router.get("/:id", getUser, (req, res) => {
   res.json(res.user);
 });
 
-//POST
-// router.post("/", async (req, res) => {  
-//   const user = new User({
-//     name: req.body.name,
-//     email: req.body.email,
-//     password: req.body.password,
-//     phone_number: req.body.phone_number,
-//   });
-//   try {
-//     const newUser = await user.save();
-//     res.status(201).json(newUser);
-//   } catch (error) {
-//     res.status(400).json({ message: error.message });
-//   }
-// });
-
 router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
   try {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const user = new User({
+      id: req.body._id,
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
@@ -59,10 +44,10 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     User.findOne({ name: req.body.name }, (err, user) => {
+      if (err) return handleError(err);
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
-      if (err) return handleError(err);
       let passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
