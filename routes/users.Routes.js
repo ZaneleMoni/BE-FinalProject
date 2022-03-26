@@ -59,10 +59,10 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
 router.post("/signin", async (req, res) => {
   try {
     User.findOne({ name: req.body.name }, (err, user) => {
-      if (err) return handleError(err);
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
       }
+      if (err) return handleError(err);
       let passwordIsValid = bcrypt.compareSync(
         req.body.password,
         user.password
