@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const verifyToken = require("../middleware/verifySignUp")
+const jwt = require("jsonwebtoken");
+const verifyToken = require("../middleware/authJwt");
 
 //Get all users
 router.get("/", async (req, res) => {
@@ -57,7 +58,7 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
 //
 router.post("/signin", async (req, res) => {
   try {
-    User.findOne({ name: req.body.name }, (error, user) => {
+      User.findOne({ name: req.body.name }, (error, user) => {
       if (error) return handleError(error);
       if (!user) {
         return res.status(404).send({ message: "User Not found." });
