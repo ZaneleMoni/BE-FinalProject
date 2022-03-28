@@ -6,13 +6,12 @@ GET https://my-blogyy.herokuapp.com/users
 ###
 POST https://my-blogyy.herokuapp.com/users/signup
 Content-type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMmFmMTU5M2NkMmRlYTMwMmU1OTFiYiIsImlhdCI6MTY0NzY4MDM3NSwiZXhwIjoxNjQ3NzY2Nzc1fQ.x48l-te8fyJIg8G__DI-iq8Z8vmvd5quSMduomroJdc
 
 {
-     "name":"Samsung" ,
-      "email":"samsung@gmail.com" ,
-      "password":"123456" ,
-      "phone_number": "0625589996",
+     "name":"Nokia" ,
+      "email":"nokia@gmail.com" ,
+      "password":"654321" ,
+      "phone_number": "0625589996"
 }
 
 ###
