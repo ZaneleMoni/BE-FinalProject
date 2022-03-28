@@ -32,9 +32,9 @@ router.post("/", (req, res) => {
     text: `${name} has contacted you please contact them back on ${email} ${message}`,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
+  transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+      console.log(err);
       res.status(400).send({ msg: "email not sent" });
     } else {
       console.log("Email sent: " + info.response);

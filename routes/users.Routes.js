@@ -10,8 +10,8 @@ router.get("/", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -34,8 +34,8 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
     res.status(201).json(newUser);
     console.log(salt);
     console.log(hashedPassword);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 });
 
@@ -98,8 +98,8 @@ router.patch("/", [getUser, verifyToken],async (req, res) => {
   try {
     const updatedUser = await res.user.save();
     res.json(updatedUser);
-  } catch (error) {
-    res.status(400).json({ mesage: error.message });
+  } catch (err) {
+    res.status(400).json({ mesage: err.message });
   }
 });
 
@@ -108,8 +108,8 @@ router.delete("/:id", getUser, async (req, res) => {
   try {
     await res.user.remove();
     res.json({ message: "user successfully deleted" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -120,8 +120,8 @@ async function getUser(req, res, next) {
     user = await User.findById(req.params.id);
     if (user == null)
       return res.status(404).json({ message: "cannot find user" });
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
   res.user = user;
   next();
@@ -135,8 +135,8 @@ async function DuplicatedNameorEmail(req, res, next) {
     if (user || email) {
       return res.status(404).send({ message: "username already exists" });
     }
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
   }
   next();
 }

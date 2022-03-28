@@ -4,14 +4,13 @@ GET https://my-blogyy.herokuapp.com/users/621f27c1b5fd27ccd4c791ca
 GET https://my-blogyy.herokuapp.com/users
 
 ###
-POST https://my-blogyy.herokuapp.com/users/signup
+POST https://my-blogyy.herokuapp.com/users/signin
 Content-type: application/json
 
 {
-     "name":"Nokia" ,
-      "email":"nokia@gmail.com" ,
-      "password":"654321" ,
-      "phone_number": "0625589996"
+     "name":"Huawei" ,
+      "password":"123456" 
+    
 }
 
 ###
