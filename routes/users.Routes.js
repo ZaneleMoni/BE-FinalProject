@@ -40,39 +40,53 @@ router.post("/signup", DuplicatedNameorEmail, async (req, res) => {
 });
 
 // Sign in user
-router.post("/signin", async (req, res) => {
-  try {
-    User.findOne({ name: req.body.name }, (err, user) => {
-      if (err) return handleError(err);
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
-      }
-      let passwordIsValid = bcrypt.compareSync(
-        req.body.password,
-        user.password
+
+router.patch("/", async (req, res, next) => {
+  const { name, password } = req.body;
+  const user = await User.findOne({ name });
+  if (!user) res.status(404).json({ message: "Could not find user" });
+  if (await bcrypt.compare( password, user.password)) {
+    try {
+      const access_token = jwt.sign(
+        JSON.stringify(user),
+        process.env.ACCESS_TOKEN_SECRET
       );
-      if (!passwordIsValid) {
-        return res.status(401).send({
-          accessToken: null,
-          message: "Invalid Password!",
-        });
-      }
-      let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: 86400, // 24 hours
-      });
-      res.status(200).send({
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        phone_number: user.phone_number,
-        accessToken: token,
-      });
-    });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+      res.status(201).json({ jwt: access_token, user });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  } else {
+    res.status(400).json({ message: "Email and password do not match" });
   }
 });
+
+
+// router.patch("/", async (req, res) => {
+//   try {
+//     User.findOne({ name: req.body.name }, (err, user) => {
+//       if (err) return handleError(err);
+//       if (!user) {
+//         return res.status(404).send({ message: "User Not found." });
+//       }
+//       let passwordIsValid = bcrypt.compareSync(
+//         req.body.password,
+//         user.password
+//       );
+//       if (!passwordIsValid) {
+//         return res.status(401).send({
+//           accessToken: null,
+//           message: "Invalid Password!",
+//         });
+//       }
+//       let token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+//         expiresIn: 86400, // 24 hours
+//       });
+//       res.status(201).json({ jwt: access_token, user});
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
 //updated user
 router.patch("/", [getUser, verifyToken],async (req, res) => {

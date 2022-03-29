@@ -4,7 +4,7 @@ GET https://my-blogyy.herokuapp.com/users/621f27c1b5fd27ccd4c791ca
 GET https://my-blogyy.herokuapp.com/users
 
 ###
-POST https://my-blogyy.herokuapp.com/users/signin
+PATCH https://my-blogyy.herokuapp.com/users
 Content-type: application/json
 
 {
