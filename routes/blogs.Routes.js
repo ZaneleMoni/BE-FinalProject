@@ -5,7 +5,7 @@ const blogModels = require("../models/blog");
 const Comment = require("../models/comment")
 
 // Get all blog posts
-router.get("/blogs", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const blogs = await blogModels.find();
     res.status(200).json(blogs);
