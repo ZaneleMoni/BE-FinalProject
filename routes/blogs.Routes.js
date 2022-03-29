@@ -3,8 +3,9 @@ const router = express.Router();
 const auth = require("../middleware/authJwt");
 const blogModels = require("../models/blog");
 const Comment = require("../models/comment")
+
 // Get all blog posts
-router.get("/", async (req, res) => {
+router.get("/blogs", async (req, res) => {
   try {
     const blogs = await blogModels.find();
     res.status(200).json(blogs);
@@ -76,77 +77,6 @@ async function getBlogs(req, res, next) {
   next();
 }
 
-//Get one comment
-router.get("blogs/comments/:id", getComments, (req, res) => {
-  res.send(res.comments);
-});
-// Get all comments
-router.get("blogs/:comments", async (req, res) => {
-  try {
-    const comments = await Comment.find();
-    res.json(comments);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
-// Create a blog comment
-router.post("blogs/:id/comments", auth, async (req, res, next) => {
-  const { title, body } = req.body;
-  try {
-    const created_by = req.user_id.toString().replace(/['"]+/g, "");
-
-    const comment = new Comment({
-      title,
-      body,
-      created_by,
-      created_for: req.params.id,
-    
-    });
-    
-      const newComment = await comment.save();
-      res.status(201).json(newComment);
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
-  
-});
-  
-// Delete comment
-router.delete("/:id/comments", async (req, res) => {
-  try {
-    // await res.comments.remove();
-    res.json({ message: "Comment Deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-// Update comment
-router.patch("/:id/comments", async (req, res) => {
-  if (req.body.title != null) {
-    res.comments.title = req.body.title;
-  }
-  try {
-    const updatedComment = await res.comments.save();
-    res.json(updatedComment);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-});
-async function getComments(req, res, next) {
-  let comments;
-  try {
-    comments = await Comment.findById(req.params.id);
-    if (blogs == null) {
-      return res.status(404).json({ message: "Cannot find comment" });
-    }
-  } catch (err) {
-    return res.status(500).json({ message: err.message });
-  }
-
-  res.comments = comments;
-  next();
-}
 
 module.exports = router;
