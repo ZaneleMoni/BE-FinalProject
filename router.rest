@@ -1,10 +1,10 @@
-GET http://localhost:9339/blogs/6229c6d8ff5bfb1ffe7c5686
+GET https://my-blogyy.herokuapp.com/blogs/6229c6d8ff5bfb1ffe7c5686
 
 ###
-GET http://localhost:9339/blogs
+GET https://my-blogyy.herokuapp.com/blogs
 
 ###
-POST http://localhost:9339/blogs
+POST https://my-blogyy.herokuapp.com/blogs
 Content-type: application/json
 
 {
@@ -14,10 +14,10 @@ Content-type: application/json
 }
 
 ###
-DELETE  http://localhost:9339/blogs/6228b977de66bdee1afe9231
+DELETE  https://my-blogyy.herokuapp.com/blogs
 
 ###
-PATCH http://localhost:9339/blogs/6235b79e8908f4b5fabf8edc
+PATCH https://my-blogyy.herokuapp.com/blogs
 
 {
     "img":"https://www.istorytime.com/wp-content/uploads/2017/12/eiffel-tower-1280022_1280.jpg"
