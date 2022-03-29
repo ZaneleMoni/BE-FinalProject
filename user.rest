@@ -4,12 +4,14 @@ GET https://my-blogyy.herokuapp.com/users/621f27c1b5fd27ccd4c791ca
 GET https://my-blogyy.herokuapp.com/users
 
 ###
-PATCH https://my-blogyy.herokuapp.com/users
+POST  http://localhost:9339/contacts
 Content-type: application/json
 
 {
-     "name":"Vuyolwethu" ,
-     "password":"123456" 
+     "name":"Zan" ,
+     "email":"zan@gmail.com",
+     "message":"gbhsjbnujn",
+     "subject":"fghjnkmjkn" 
     
 }
 
